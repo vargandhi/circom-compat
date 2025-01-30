@@ -45,12 +45,11 @@ impl<F: PrimeField> ConstraintSynthesizer<F> for CircomCircuit<F> {
         }
 
         for i in 0..self.r1cs.num_aux {
+            print!("Wire mapping -- r1cs.num_aux: {}", self.r1cs.num_aux);
             cs.new_witness_variable(|| {
                 Ok(match witness {
                     None => F::from(1u32),
                     Some(w) => match wire_mapping {
-                        print!("circom witness success");
-                        print!("checking wire mapping");
                         Some(m) => w[m[i + self.r1cs.num_inputs]],
                         None => w[i + self.r1cs.num_inputs],
                     },
